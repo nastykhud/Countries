@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница страны</title>
+</head>
+<body>
+    <h2>{{country.country}}</h2>
+    {% for lang in country.languages%}
+        <li>{{ lang }} </a></li>
+    {% endfor %}
+    <br>
+    <a href = "/countries-list">Назад к списку стран</a>
+</body>
+</html>
