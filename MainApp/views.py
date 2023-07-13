@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import string
 
+#список стран
 clist = [
     {
         "country": "Aruba",
@@ -2160,22 +2161,14 @@ clist = [
     }
 ]
 
+#алфавит
 alf = [I.upper() for I in list(string.ascii_lowercase)]
 
-pagnames = []
-i = 10
-while (i <= len(clist)):
-    pagnames.append(str(i-9)+ '...' + str(i))
-    i += 10
-pagnames.append(str(i-9)+ '...' + str(len(clist)))   
-
-    
-
-#  Create your views here.
+# главная страница
 def home(request):
     return render(request, "main_page.html")
 
-
+# страница страны
 def country(request, country):
     cons = []
     for co in clist:
@@ -2186,6 +2179,7 @@ def country(request, country):
     else:
         return render(request, "not_country_page.html")
 
+#страница языка
 def lang(request, lang):
     cons = []
     for co in clist:
@@ -2194,7 +2188,7 @@ def lang(request, lang):
     context = {'lanuage': lang,'countries': cons}
     return render(request, "lang_page.html", context)
 
-    
+#список стран на заданную букву 
 def countries_list_alphabet(request, alpha):
     cons = []
     for co in clist:
@@ -2203,6 +2197,7 @@ def countries_list_alphabet(request, alpha):
     context = {'countries_a': cons}
     return render(request, "country_list_alphabet.html", context)
 
+#список языков
 def lang_list(request):
     langs = []
     for co in clist:
@@ -2213,7 +2208,25 @@ def lang_list(request):
     context = {"languages": langs}
     return render(request, "lang_list.html", context)
 
-def countries_list(request):
-    context = {"countries": clist, "alphabet": alf, "pags": pagnames}
+#список стран с пагинацией
+def countries_list(request, numstr):
+    #список словарей для пагинации
+    pagnames = []
+    number_count = 10
+    i = number_count
+    k = 1
+    while (i <= len(clist)):
+        pagnames.append({'numer': k, 'name': str(i-number_count+1)+ '...' + str(i)})
+        i += number_count
+        k += 1
+    pagnames.append({'numer': k, 'name': str(i-number_count+1)+ '...' + str(len(clist))})
+
+    #список стран для заданного номера страницы пагинации
+    clist_new = []
+    for cnum in range(len(clist)):
+        if ((numstr-1)*number_count<cnum<=(numstr)*number_count):
+            clist_new.append(clist[cnum])
+
+    context = {"countries": clist_new, "alphabet": alf, "pags": pagnames, "start": (numstr-1)*number_count+1}
     return render(request, "countries_list.html", context)
 

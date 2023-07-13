@@ -7,16 +7,16 @@
 </head>
 <body>
     {% for alpha in alphabet%}
-    <a href = "/countries-list-alphabet/{{alpha}}"> {{ alpha }} </a>
+    <a href = "{% url 'count-list-a' alpha%}"> {{ alpha }} </a>
     {% endfor %}
     <h1>Список стран</h1>
-    <ol>
+    <ol start = "{{start}}">
         {% for count in countries%}
-        <li><a href = "/country/{{ count.country }}"> {{ count.country }} </a></li>
+        <li ><a href = "{% url 'country' count.country%}"> {{ count.country }} </a></li>
         {% endfor %}
     </ol>
     {% for p in pags%}
-    {{p}}
+    <a href = "{% url 'count-list' p.numer%}"> {{ p.name }} </a>
     {% endfor %}
 </body>
 </html>

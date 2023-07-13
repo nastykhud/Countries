@@ -8,7 +8,7 @@
 <body>
     <ol>
         {% for count in countries_a%}
-        <li><a href = "/country/{{ count }}"> {{ count }} </a></li>
+        <li><a href = "{% url 'country' count%}"> {{ count }} </a></li>
         {% endfor %}
     </ol>
 </body>
